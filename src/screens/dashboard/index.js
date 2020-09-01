@@ -7,8 +7,6 @@ import Item from '../../components/ProductItem';
 
 const renderItem = ({item}) => <Item item={item} />;
 
-import database from '@react-native-firebase/database';
-
 import Loader from '../../components/Loader';
 
 /**
@@ -21,12 +19,12 @@ const Dashboard = (props) => {
   // consider it as component did mount
   useEffect(() => {
     setLoading(true);
-    const response = database().ref('products');
-    response.on('value', (snapshot) => {
-      console.log('snapshot:', snapshot.val());
-      setProducts(snapshot.val());
-      setLoading(false);
-    });
+    // const response = database().ref('products');
+    // response.on('value', (snapshot) => {
+    //   console.log('snapshot:', snapshot.val());
+    //   setProducts(snapshot.val());
+    //   setLoading(false);
+    // });
   }, []);
 
   return (

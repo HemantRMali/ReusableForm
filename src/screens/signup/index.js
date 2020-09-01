@@ -21,6 +21,7 @@ import Loader from '../../components/Loader';
 
 import {constant} from '../../contants';
 import RadioButton from '../../components/RadioButton';
+import ModalDropdown from '../../components/ModalDropdown';
 
 /**
  * This component is used to handled user registration and validations activity.
@@ -39,6 +40,7 @@ const Signup = (props) => {
   const [email, setEmail] = useState('');
   const [mobileNumner, setMobileNumber] = useState('');
   const [gender, setGender] = useState('Male');
+  const [country, setCountry] = useState('India');
   const [password, setPassword] = useState('');
   const [isLoading, setLoading] = useState(false);
 
@@ -129,13 +131,22 @@ const Signup = (props) => {
             keyboardType="phone-pad"
             onChangeText={(value) => setMobileNumber(value)}
           />
-          <Text style={{marginBottom: 10}}>Gender</Text>
+          <Text style={{marginBottom: 10}}>Select Gender</Text>
           <RadioButton
             selectedGender={(selectedGender) => {
               setGender(selectedGender);
             }}
           />
-          {/* Country */}
+
+          <Text style={{marginBottom: 10}}>Select Country</Text>
+
+          <ModalDropdown
+            onSelect={(index, value) => setCountry(value)}
+            defaultValue="India"
+            textStyle={{fontSize: 15, marginBottom: 20}}
+            options={['India', 'Indonesia', 'Japan', 'Philippines', 'Vietnam']}
+          />
+
           <FBARNTextInput
             label={constant.password}
             value={password}
