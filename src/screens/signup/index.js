@@ -10,11 +10,17 @@ import {
 import styles from './styles';
 import FBARNTextInput from '../../components/TextInput';
 import FBARNButton from '../../components/Button';
-import {isValidEmail, isValidPassword} from '../../methods';
+import {
+  isValidName,
+  isValidEmail,
+  isValidMobileNumber,
+  isValidPassword,
+} from '../../methods';
 import ScreenTitle from '../../components/ScreenTitle';
 import Loader from '../../components/Loader';
 
-import auth from '@react-native-firebase/auth';
+import {constant} from '../../contants';
+import RadioButton from '../../components/RadioButton';
 
 /**
  * This component is used to handled user registration and validations activity.
@@ -28,34 +34,72 @@ export const showAlert = (message) => {
 };
 
 const Signup = (props) => {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
+  const [mobileNumner, setMobileNumber] = useState('');
+  const [gender, setGender] = useState('Male');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [isLoading, setLoading] = useState(false);
 
   const registerUser = () => {
     setLoading(true);
-    auth()
-      .createUserWithEmailAndPassword(email, password)
-      .then(() => {
-        setLoading(false);
-        props.navigation.navigate('Dashboard');
-      })
-      .catch((error) => {
-        console.log('error:', error);
-        if (error.code === 'auth/email-already-in-use') {
-          showAlert('That email address is already in use!');
-        }
 
-        if (error.code === 'auth/invalid-email') {
-          showAlert('That email address is invalid!');
-        }
-        if (error.code === 'auth/weak-password') {
-          showAlert('The given password is invalid');
-        }
-        setLoading(false);
-      });
+    let user = {
+      firstName,
+      lastName,
+      email,
+      mobileNumner,
+      gender,
+      password,
+    };
+
+    console.log('user:', user);
+
+    // auth()
+    //   .createUserWithEmailAndPassword(email, password)
+    //   .then(() => {
+    //     setLoading(false);
+    //     props.navigation.navigate('Dashboard');
+    //   })
+    //   .catch((error) => {
+    //     console.log('error:', error);
+    //     if (error.code === 'auth/email-already-in-use') {
+    //       showAlert('That email address is already in use!');
+    //     }
+
+    //     if (error.code === 'auth/invalid-email') {
+    //       showAlert('That email address is invalid!');
+    //     }
+    //     if (error.code === 'auth/weak-password') {
+    //       showAlert('The given password is invalid');
+    //     }
+    //     setLoading(false);
+    //   });
   };
+
+  const checkValidationThenRegister = ({
+    firstNameValidation,
+    lastNameValidation,
+    emailValidation,
+    mobileNumberValidation,
+    passwordValidation,
+  }) => {
+    let message = '';
+    if (!firstNameValidation.isValid) {
+      message = firstNameValidation.message;
+    } else if (!lastNameValidation.isValid) {
+      message = lastNameValidation.message;
+    } else if (!emailValidation.isValid) {
+      message = emailValidation.message;
+    } else if (!mobileNumberValidation.isValid) {
+      message = mobileNumberValidation.message;
+    } else if (!passwordValidation.isValid) {
+      message = passwordValidation.message;
+    }
+    message.length > 0 ? Alert.alert(message) : registerUser();
+  };
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
@@ -64,39 +108,66 @@ const Signup = (props) => {
           contentContainerStyle={styles.scrollViewContentContainerStyle}>
           <ScreenTitle title="Register" />
           <FBARNTextInput
-            label="Email"
+            label={constant.firstName}
+            value={firstName}
+            onChangeText={(value) => setFirstName(value)}
+          />
+          <FBARNTextInput
+            label={constant.lastName}
+            value={lastName}
+            onChangeText={(value) => setLastName(value)}
+          />
+          <FBARNTextInput
+            label={constant.email}
             value={email}
             keyboardType="email-address"
             onChangeText={(value) => setEmail(value)}
           />
           <FBARNTextInput
-            label="Password"
+            label={constant.mobileNumber}
+            value={mobileNumner}
+            keyboardType="phone-pad"
+            onChangeText={(value) => setMobileNumber(value)}
+          />
+          <Text style={{marginBottom: 10}}>Gender</Text>
+          <RadioButton
+            selectedGender={(selectedGender) => {
+              setGender(selectedGender);
+            }}
+          />
+          {/* Country */}
+          <FBARNTextInput
+            label={constant.password}
             value={password}
             isSecure={true}
             onChangeText={(value) => setPassword(value)}
           />
-          <FBARNTextInput
-            label="Confirm Password"
-            value={confirmPassword}
-            isSecure={true}
-            onChangeText={(value) => setConfirmPassword(value)}
-          />
           <FBARNButton
             title="Sign Up"
             onPress={() => {
-              if (
-                isValidEmail(email) &&
-                isValidPassword(password) &&
-                isValidPassword(confirmPassword)
-              ) {
-                if (password === confirmPassword) {
-                  registerUser();
-                } else {
-                  Alert.alert('Password and confirm password does not match');
-                }
-              } else {
-                Alert.alert('Invalid inputs');
-              }
+              const firstNameValidation = isValidName({
+                name: firstName,
+                nameType: 'first name',
+              });
+
+              const lastNameValidation = isValidName({
+                name: lastName,
+                nameType: 'last name',
+              });
+
+              const emailValidation = isValidEmail(email);
+
+              const mobileNumberValidation = isValidMobileNumber(mobileNumner);
+
+              const passwordValidation = isValidPassword(password);
+
+              checkValidationThenRegister({
+                firstNameValidation,
+                lastNameValidation,
+                emailValidation,
+                mobileNumberValidation,
+                passwordValidation,
+              });
             }}
           />
           <TouchableOpacity onPress={() => props.navigation.goBack()}>

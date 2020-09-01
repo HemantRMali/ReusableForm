@@ -9,7 +9,6 @@ export default StyleSheet.create({
   },
   signInButton: {
     backgroundColor: '#595856',
-    margin: 20,
     padding: 15,
     justifyContent: 'center',
     alignItems: 'center',

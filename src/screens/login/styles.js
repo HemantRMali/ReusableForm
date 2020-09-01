@@ -5,7 +5,8 @@ export default StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     backgroundColor: 'rgba(240, 240, 240, 1)',
+    margin: 30,
   },
   scrollViewContentContainerStyle: {flexGrow: 1, justifyContent: 'center'},
-  noAccount: {alignSelf: 'center'},
+  noAccount: {alignSelf: 'center', marginTop: 30},
 });
