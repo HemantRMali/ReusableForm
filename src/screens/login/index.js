@@ -15,6 +15,8 @@ import {isValidMobileNumber, isValidPassword} from '../../methods';
 import ScreenTitle from '../../components/ScreenTitle';
 import Loader from '../../components/Loader';
 import {constant} from '../../contants';
+import {getRegisteredUser} from '../../storage/reduxStore';
+
 /**
  * This component is used to handled user login and validations activity.
  * @param {*} props
@@ -32,28 +34,15 @@ const Login = (props) => {
   const [isLoading, setLoading] = useState(false);
 
   const loginUser = () => {
-    setLoading(true);
-    // auth()
-    //   .signInWithEmailAndPassword(email, password)
-    //   .then(() => {
-    //     setLoading(false);
-    //     props.navigation.navigate('Dashboard');
-    //   })
-    //   .catch((error) => {
-    //     console.log('error:', error);
-    //     if (error.code === 'auth/user-not-found') {
-    //       showAlert('User not found!');
-    //     }
-    //     if (error.code === 'auth/invalid-email') {
-    //       showAlert('That email address is invalid!');
-    //     }
-    //     if (error.code === 'auth/wrong-password') {
-    //       showAlert(
-    //         'The password is invalid or the user does not have a password',
-    //       );
-    //     }
-    //     setLoading(false);
-    //   });
+    const existingUsers = getRegisteredUser();
+    const userExists = existingUsers.some((user) => {
+      return user.mobileNumber === mobileNumber && user.password === password;
+    });
+    if (userExists) {
+      props.navigation.navigate('Dashboard');
+    } else {
+      Alert.alert('Email or password does not match..!');
+    }
   };
 
   const checkValidationThenLogin = ({
@@ -74,6 +63,7 @@ const Login = (props) => {
       <View style={styles.container}>
         <Loader isTransparent={true} loading={isLoading} />
         <ScrollView
+          showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.scrollViewContentContainerStyle}>
           <ScreenTitle title="Login" />
           <FBARNTextInput

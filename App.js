@@ -9,6 +9,9 @@ import Dashboard from './src/screens/dashboard';
 
 enableScreens();
 const Stack = createNativeStackNavigator();
+import {Provider} from 'react-redux';
+import {PersistGate} from 'redux-persist/es/integration/react';
+import {store, persistor} from './src/store/configureStore';
 
 const navigationOptions = {
   headerShown: false,
@@ -16,25 +19,29 @@ const navigationOptions = {
 };
 function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen
-          name="Login"
-          options={navigationOptions}
-          component={Login}
-        />
-        <Stack.Screen
-          name="Signup"
-          component={Signup}
-          options={navigationOptions}
-        />
-        <Stack.Screen
-          name="Dashboard"
-          options={{headerHideBackButton: true, gestureEnabled: false}}
-          component={Dashboard}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName="Login">
+            <Stack.Screen
+              name="Login"
+              options={navigationOptions}
+              component={Login}
+            />
+            <Stack.Screen
+              name="Signup"
+              component={Signup}
+              options={navigationOptions}
+            />
+            <Stack.Screen
+              name="Dashboard"
+              options={{headerHideBackButton: true, gestureEnabled: false}}
+              component={Dashboard}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </PersistGate>
+    </Provider>
   );
 }
 

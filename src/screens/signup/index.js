@@ -22,7 +22,9 @@ import Loader from '../../components/Loader';
 import {constant} from '../../contants';
 import RadioButton from '../../components/RadioButton';
 import ModalDropdown from '../../components/ModalDropdown';
-
+import {connect} from 'react-redux';
+import {registerCustomer} from './actions';
+import {getRegisteredUser} from '../../storage/reduxStore';
 /**
  * This component is used to handled user registration and validations activity.
  * @param {*} props
@@ -38,46 +40,36 @@ const Signup = (props) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
-  const [mobileNumner, setMobileNumber] = useState('');
+  const [mobileNumber, setMobileNumber] = useState('');
   const [gender, setGender] = useState('Male');
   const [country, setCountry] = useState('India');
   const [password, setPassword] = useState('');
-  const [isLoading, setLoading] = useState(false);
 
   const registerUser = () => {
-    setLoading(true);
-
-    let user = {
+    let newUser = {
       firstName,
       lastName,
       email,
-      mobileNumner,
+      mobileNumber,
       gender,
       password,
+      country,
     };
 
-    console.log('user:', user);
+    const existingUsers = getRegisteredUser();
+    const userExists = existingUsers.some((user) => {
+      return user.mobileNumber === mobileNumber;
+    });
+    if (userExists) {
+      Alert.alert('User already exists..!');
+    } else {
+      props.registerCustomer({newUser});
 
-    // auth()
-    //   .createUserWithEmailAndPassword(email, password)
-    //   .then(() => {
-    //     setLoading(false);
-    //     props.navigation.navigate('Dashboard');
-    //   })
-    //   .catch((error) => {
-    //     console.log('error:', error);
-    //     if (error.code === 'auth/email-already-in-use') {
-    //       showAlert('That email address is already in use!');
-    //     }
-
-    //     if (error.code === 'auth/invalid-email') {
-    //       showAlert('That email address is invalid!');
-    //     }
-    //     if (error.code === 'auth/weak-password') {
-    //       showAlert('The given password is invalid');
-    //     }
-    //     setLoading(false);
-    //   });
+      setTimeout(() => {
+        Alert.alert('Register success, please login to procced');
+        props.navigation.goBack();
+      }, 1000);
+    }
   };
 
   const checkValidationThenRegister = ({
@@ -105,8 +97,9 @@ const Signup = (props) => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
-        <Loader isTransparent={true} loading={isLoading} />
+        {/* <Loader isTransparent={true} loading={props.RegisterReducer.loading} /> */}
         <ScrollView
+          showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.scrollViewContentContainerStyle}>
           <ScreenTitle title="Register" />
           <FBARNTextInput
@@ -127,7 +120,7 @@ const Signup = (props) => {
           />
           <FBARNTextInput
             label={constant.mobileNumber}
-            value={mobileNumner}
+            value={mobileNumber}
             keyboardType="phone-pad"
             onChangeText={(value) => setMobileNumber(value)}
           />
@@ -168,7 +161,7 @@ const Signup = (props) => {
 
               const emailValidation = isValidEmail(email);
 
-              const mobileNumberValidation = isValidMobileNumber(mobileNumner);
+              const mobileNumberValidation = isValidMobileNumber(mobileNumber);
 
               const passwordValidation = isValidPassword(password);
 
@@ -190,4 +183,20 @@ const Signup = (props) => {
   );
 };
 
-export default Signup;
+// const mapStateToProps = ({RegisterReducer}) => RegisterReducer;
+function mapStateToProps(state) {
+  const {RegisterReducer} = state;
+  return {RegisterReducer};
+}
+
+/**
+ * Dispatch to Props
+ */
+const mapDispatchToProps = {
+  registerCustomer,
+};
+
+/**
+ * Exports
+ */
+export default connect(mapStateToProps, mapDispatchToProps)(Signup);
