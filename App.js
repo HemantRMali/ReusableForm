@@ -12,6 +12,7 @@ const Stack = createNativeStackNavigator();
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/es/integration/react';
 import {store, persistor} from './src/store/configureStore';
+import Details from './src/screens/Details';
 
 const navigationOptions = {
   headerShown: false,
@@ -38,6 +39,7 @@ function App() {
               options={{headerHideBackButton: true, gestureEnabled: false}}
               component={Dashboard}
             />
+            <Stack.Screen name="Details" component={Details} />
           </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>

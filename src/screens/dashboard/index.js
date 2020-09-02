@@ -5,10 +5,9 @@ import styles from './styles';
 
 import Item from '../../components/ProductItem';
 
-const renderItem = ({item}) => <Item item={item} />;
-
 import Loader from '../../components/Loader';
 import SegmentedControl from '../../components/SegmentControll';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const nearBy = require('../../mock-data/nearby.json');
 const zomato = require('../../mock-data/zomato.json');
@@ -37,6 +36,19 @@ const Dashboard = (props) => {
   // consider it as component did mount
   useEffect(() => {}, []);
 
+  const renderItem = ({item}) => (
+    <TouchableOpacity
+      onPress={() => {
+        props.navigation.navigate('Details');
+      }}>
+      <Item
+        item={item}
+        onPress={() => {
+          props.navigation.navigate('Details');
+        }}
+      />
+    </TouchableOpacity>
+  );
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
