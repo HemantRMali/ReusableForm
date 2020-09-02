@@ -22,7 +22,7 @@ function App() {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="Login">
+          <Stack.Navigator initialRouteName="Dashboard">
             <Stack.Screen
               name="Login"
               options={navigationOptions}

@@ -161,7 +161,6 @@
 				A1F447E2461DA86F7FDDD6C2 /* Pods-ReusableFormRN-tvOSTests.debug.xcconfig */,
 				8DDB06E74474B4F27425C16A /* Pods-ReusableFormRN-tvOSTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};

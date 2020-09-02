@@ -2,7 +2,7 @@
  * Filename: Registration actions.js
  */
 
-import {RegisterAction} from './contants';
+import {RegisterAction} from './constants';
 
 export const registerCustomer = ({newUser}) => ({
   type: RegisterAction.REGISTER,

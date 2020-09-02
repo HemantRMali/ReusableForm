@@ -14,7 +14,7 @@ import FBARNButton from '../../components/Button';
 import {isValidMobileNumber, isValidPassword} from '../../methods';
 import ScreenTitle from '../../components/ScreenTitle';
 import Loader from '../../components/Loader';
-import {constant} from '../../contants';
+import {constant} from '../../constants';
 import {getRegisteredUser} from '../../storage/reduxStore';
 
 /**

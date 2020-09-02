@@ -8,29 +8,49 @@ import Item from '../../components/ProductItem';
 const renderItem = ({item}) => <Item item={item} />;
 
 import Loader from '../../components/Loader';
+import SegmentedControl from '../../components/SegmentControll';
 
+const nearBy = require('../../mock-data/nearby.json');
+const zomato = require('../../mock-data/zomato.json');
+const swiggy = require('../../mock-data/swiggy.json');
 /**
  * This component is used to get products from firebase and show in flatlist.
  * @param {*} props
  */
 const Dashboard = (props) => {
+  const [tabIndex, setTabIndex] = React.useState(1);
+  const handleTabsChange = (index) => {
+    setTabIndex(index);
+    switch (index) {
+      case 1:
+        setProducts(swiggy.restaurants);
+        break;
+      case 2:
+        setProducts(zomato.restaurants);
+        break;
+      default:
+        setProducts(nearBy.restaurants);
+        break;
+    }
+  };
   const [products, setProducts] = useState();
-  const [isLoading, setLoading] = useState();
   // consider it as component did mount
-  useEffect(() => {
-    setLoading(true);
-    // const response = database().ref('products');
-    // response.on('value', (snapshot) => {
-    //   console.log('snapshot:', snapshot.val());
-    //   setProducts(snapshot.val());
-    //   setLoading(false);
-    // });
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
-        <Loader isTransparent={true} loading={isLoading} />
+        {/* <Loader isTransparent={true} loading={isLoading} /> */}
+        <SegmentedControl
+          tabs={['Near by', 'Swiggy', 'Zomato']}
+          currentIndex={tabIndex}
+          onChange={handleTabsChange}
+          segmentedControlBackgroundColor="#86c4fd"
+          activeSegmentBackgroundColor="#0482f7"
+          activeTextColor="white"
+          textColor="black"
+          paddingVertical={18}
+        />
         <FlatList
           data={products}
           renderItem={renderItem}

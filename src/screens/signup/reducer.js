@@ -6,7 +6,7 @@
 /**
  * Constants
  */
-import {RegisterAction} from './contants';
+import {RegisterAction} from './constants';
 //import {stat} from 'fs';
 
 // Initial State

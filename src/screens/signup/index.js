@@ -19,7 +19,7 @@ import {
 import ScreenTitle from '../../components/ScreenTitle';
 import Loader from '../../components/Loader';
 
-import {constant} from '../../contants';
+import {constant} from '../../constants';
 import RadioButton from '../../components/RadioButton';
 import ModalDropdown from '../../components/ModalDropdown';
 import {connect} from 'react-redux';

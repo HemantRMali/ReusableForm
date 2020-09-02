@@ -6,7 +6,7 @@
 /**
  * Constants
  */
-import {LoginAction} from './contants';
+import {LoginAction} from './constants';
 //import {stat} from 'fs';
 
 // Initial State
