@@ -16,6 +16,7 @@ import ScreenTitle from '../../components/ScreenTitle';
 import Loader from '../../components/Loader';
 import {constant} from '../../constants';
 import {getRegisteredUser} from '../../storage/reduxStore';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 /**
  * This component is used to handled user login and validations activity.
@@ -61,8 +62,8 @@ const Login = (props) => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
-        <Loader isTransparent={true} loading={isLoading} />
-        <ScrollView
+        {/* <Loader isTransparent={true} loading={isLoading} /> */}
+        <KeyboardAwareScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.scrollViewContentContainerStyle}>
           <ScreenTitle title="Login" />
@@ -94,7 +95,7 @@ const Login = (props) => {
           <TouchableOpacity onPress={() => props.navigation.navigate('Signup')}>
             <Text style={styles.noAccount}>No account yet? Create one</Text>
           </TouchableOpacity>
-        </ScrollView>
+        </KeyboardAwareScrollView>
       </View>
     </SafeAreaView>
   );

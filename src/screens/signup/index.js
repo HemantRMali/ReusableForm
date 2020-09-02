@@ -25,6 +25,8 @@ import ModalDropdown from '../../components/ModalDropdown';
 import {connect} from 'react-redux';
 import {registerCustomer} from './actions';
 import {getRegisteredUser} from '../../storage/reduxStore';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+
 /**
  * This component is used to handled user registration and validations activity.
  * @param {*} props
@@ -98,9 +100,7 @@ const Signup = (props) => {
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
         {/* <Loader isTransparent={true} loading={props.RegisterReducer.loading} /> */}
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.scrollViewContentContainerStyle}>
+        <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
           <ScreenTitle title="Register" />
           <FBARNTextInput
             label={constant.firstName}
@@ -177,7 +177,7 @@ const Signup = (props) => {
           <TouchableOpacity onPress={() => props.navigation.goBack()}>
             <Text style={styles.noAccount}>Already have account? Sign In</Text>
           </TouchableOpacity>
-        </ScrollView>
+        </KeyboardAwareScrollView>
       </View>
     </SafeAreaView>
   );

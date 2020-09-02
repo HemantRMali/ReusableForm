@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, SafeAreaView, FlatList} from 'react-native';
+import {View, SafeAreaView, FlatList, TouchableOpacity} from 'react-native';
 
 import styles from './styles';
 
@@ -7,7 +7,6 @@ import Item from '../../components/ProductItem';
 
 import Loader from '../../components/Loader';
 import SegmentedControl from '../../components/SegmentControll';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const nearBy = require('../../mock-data/nearby.json');
 const zomato = require('../../mock-data/zomato.json');
@@ -32,14 +31,14 @@ const Dashboard = (props) => {
         break;
     }
   };
-  const [products, setProducts] = useState();
+  const [products, setProducts] = useState(swiggy.restaurants);
   // consider it as component did mount
   useEffect(() => {}, []);
 
   const renderItem = ({item}) => (
     <TouchableOpacity
       onPress={() => {
-        props.navigation.navigate('Details');
+        props.navigation.navigate('Details', {item});
       }}>
       <Item
         item={item}
