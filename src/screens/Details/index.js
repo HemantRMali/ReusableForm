@@ -35,8 +35,12 @@ const Details = (props) => {
             {renderTitleSubtitle('Address:', item.address)}
             {renderTitleSubtitle('Cuisine Type:', item.cuisine_type)}
             <Text style={styles.title}>Working hours:</Text>
-            {objectArray.map((item0) => {
-              return <Text style={{marginBottom: 20}}>{item0}</Text>;
+            {objectArray.map((item0, index) => {
+              return (
+                <Text key={String(index)} style={{marginBottom: 20}}>
+                  {item0}
+                </Text>
+              );
             })}
           </View>
         </ScrollView>
