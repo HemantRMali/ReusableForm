@@ -35,19 +35,9 @@ const Dashboard = (props) => {
   // consider it as component did mount
   useEffect(() => {}, []);
 
-  const renderItem = ({item}) => (
-    <TouchableOpacity
-      onPress={() => {
-        props.navigation.navigate('Details', {item});
-      }}>
-      <Item
-        item={item}
-        onPress={() => {
-          props.navigation.navigate('Details');
-        }}
-      />
-    </TouchableOpacity>
-  );
+  const renderItem = ({item}) => {
+    return <Item navigation={props.navigation} item={item} />;
+  };
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
@@ -64,7 +54,16 @@ const Dashboard = (props) => {
         />
         <FlatList
           data={products}
-          renderItem={renderItem}
+          renderItem={({item}) => {
+            console.log('fItem:', item);
+            return (
+              <Item
+                navigation={props.navigation}
+                item={item}
+                tabIndex={tabIndex}
+              />
+            );
+          }}
           keyExtractor={(item, index) => String(index)}
         />
       </View>

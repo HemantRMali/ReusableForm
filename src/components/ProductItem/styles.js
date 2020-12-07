@@ -1,12 +1,30 @@
-import {StyleSheet} from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
 export default StyleSheet.create({
-  item: {
+  itemRow: {
     flex: 1,
     backgroundColor: '#595856',
     padding: 10,
     marginVertical: 8,
     marginHorizontal: 16,
     flexDirection: 'row',
+    borderRadius: 10,
+  },
+  itemRowReverse: {
+    flex: 1,
+    backgroundColor: '#595856',
+    padding: 10,
+    marginVertical: 8,
+    marginHorizontal: 16,
+    flexDirection: 'row-reverse',
+    borderRadius: 10,
+  },
+  itemColumn: {
+    flex: 1,
+    backgroundColor: '#595856',
+    padding: 10,
+    marginVertical: 8,
+    marginHorizontal: 16,
+    flexDirection: 'column',
     borderRadius: 10,
   },
   title: {
@@ -28,7 +46,13 @@ export default StyleSheet.create({
   },
   productImage: {
     aspectRatio: 1,
-    width: '30%',
+    width: Dimensions.get('screen').width * 0.3,
+    backgroundColor: 'white',
+    borderRadius: 10,
+  },
+  productImageFull: {
+    aspectRatio: 1,
+    // width: Dimensions.get('screen').width * 0.3,
     backgroundColor: 'white',
     borderRadius: 10,
   },

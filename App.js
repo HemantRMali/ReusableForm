@@ -6,6 +6,7 @@ import {enableScreens} from 'react-native-screens';
 import Login from './src/screens/login';
 import Signup from './src/screens/signup';
 import Dashboard from './src/screens/dashboard';
+import {createAppContainer} from 'react-navigation';
 
 enableScreens();
 const Stack = createNativeStackNavigator();
@@ -18,30 +19,23 @@ const navigationOptions = {
   headerShown: false,
   header: null,
 };
+import {createSharedElementStackNavigator} from 'react-navigation-shared-element';
+const stackNavigator = createSharedElementStackNavigator(
+  {
+    Dashboard: Dashboard,
+    Details: Details,
+  },
+  {
+    initialRouteName: 'Dashboard',
+  },
+);
+const AppContainer = createAppContainer(stackNavigator);
+
 function App() {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <NavigationContainer>
-          <Stack.Navigator initialRouteName="Login">
-            <Stack.Screen
-              name="Login"
-              options={navigationOptions}
-              component={Login}
-            />
-            <Stack.Screen
-              name="Signup"
-              component={Signup}
-              options={navigationOptions}
-            />
-            <Stack.Screen
-              name="Dashboard"
-              options={{headerHideBackButton: true, gestureEnabled: false}}
-              component={Dashboard}
-            />
-            <Stack.Screen name="Details" component={Details} />
-          </Stack.Navigator>
-        </NavigationContainer>
+        <AppContainer />
       </PersistGate>
     </Provider>
   );

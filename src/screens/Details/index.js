@@ -1,9 +1,11 @@
 import React from 'react';
 import {Text, View, SafeAreaView, Image, ScrollView} from 'react-native';
 import styles from './styles';
+import {SharedElement} from 'react-navigation-shared-element';
 
 const Details = (props) => {
-  const item = props.route.params.item;
+  console.log('navigation.state.param:', props.navigation.state);
+  const item = props.navigation.getParam('item');
   const objectArray = Object.entries(item.operating_hours);
   objectArray.forEach(([key, value]) => {
     console.log(key);
@@ -23,12 +25,14 @@ const Details = (props) => {
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.scrollViewContentContainerStyle}>
-          <Image
-            source={{
-              uri: item.imageUrl,
-            }}
-            style={styles.productImage}
-          />
+          <SharedElement id={`item.${item.id}.photo`}>
+            <Image
+              source={{
+                uri: item.imageUrl,
+              }}
+              style={styles.productImage}
+            />
+          </SharedElement>
           <View style={styles.detailsContainer}>
             {renderTitleSubtitle('Name:', item.name)}
             {renderTitleSubtitle('Neighborhood:', item.neighborhood)}
@@ -49,4 +53,16 @@ const Details = (props) => {
   );
 };
 
+Details.sharedElements = (navigation, otherNavigation, showing) => {
+  const item = navigation.getParam('item');
+  console.log('Details:Item:', item);
+  return [
+    {
+      id: `item.${item.id}.photo`,
+      animation: 'fade',
+      // resize: 'clip'
+      // align: ''left-top'
+    },
+  ];
+};
 export default Details;
